@@ -2,6 +2,8 @@ import mlflow
 from src.shared.config import settings
 import requests
 
+#this is a file i used to troubleshoot my mlflow connection when it wasnt working. (There were problems getting my model to run on the dashboard)
+
 def verify_mlflow():
     uri = settings.MLFLOW_TRACKING_URI
     print(f"Testing connection to MLflow at: {uri}")
