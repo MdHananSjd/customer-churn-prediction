@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     PROCESSED_DATA_PATH: Path = BASE_DIR / "data" / "processed"
 
     #ml and tracking settings
-    MLFLOW_TRACKING_URI: str="http://localhost:5000"
+    MLFLOW_TRACKING_URI: str="http://127.0.0.1:5050"
     MODEL_NAME: str="churn-prediction-model"
     CHURD_THRESHOLD: float=0.5
 
