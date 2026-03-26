@@ -14,15 +14,20 @@ def train_model():
     mlflow.set_tracking_uri(settings.MLFLOW_TRACKING_URI)   
     mlflow.set_experiment("anchor-churn-v1")
 
-    with mlflow.start_run(run_name="initial_lightgbm_run"):
+    with mlflow.start_run(run_name="clean_baseline_with_shap"):
         #loading the engineered dataset
         loader=DataLoader()
         df = loader.get_full_dataset()
 
-        #Feature selection
-        features_to_drop = [
-            'account_id', 'account_name', 'signup_date', 'subscription_id', 'start_date', 'end_date', 'churn_date', 'feedback_text', 'churn_flag'
+       #feature selection
+        # We drop the 'Answer Key' (leaky columns)
+        leaky_cols = [
+            'churn_date', 'reason_code', 'refund_amount_usd', 
+            'feedback_text', 'is_reactivation', 'churn_event_id'
         ]
+        metadata_cols = ['account_id', 'account_name', 'signup_date', 'subscription_id', 'start_date', 'end_date']
+        
+        drop_list = leaky_cols + metadata_cols + ['churn_flag']
 
         X = df.drop(columns=[c for c in features_to_drop if c in df.columns])
         y = df['churn_flag'] #target values
